@@ -25,7 +25,7 @@
     <folder id="FOLTAB12" populated="true" name="Imported Keys" physicalName="Imported Keys" type="2">
     </folder>
     <folder id="FOLTAB14" populated="true" name="Indices" physicalName="Indices" type="4">
-    <index id="IDX4" populated="true" UUID="e36c912d-e225-494f-8564-8e1f00d412fc" clustered="false" name="PESSOA_pk" physicalName="PESSOA_pk" primaryKeyIndex="true" unique="false" >
+    <index id="IDX4" populated="true" UUID="e36c912d-e225-494f-8564-8e1f00d412fc" clustered="false" name="PESSOA_pk" physicalName="pessoa_pk" primaryKeyIndex="true" unique="false" >
      <index-column id="IDC5" populated="true" UUID="00e414f9-fc0c-4b0e-a6ad-b3ee377e77a5" ascendingOrDescending="UNSPECIFIED" column-ref="COL2" name="ID_PESSOA" physicalName="ID_PESSOA" />
     </index>
    </folder>
@@ -33,7 +33,7 @@
   <relationships>
   </relationships>
  </target-database>
- <ddl-generator type="ca.sqlpower.architect.ddl.GenericDDLGenerator" allow-connection="true"> </ddl-generator>
+ <ddl-generator type="ca.sqlpower.architect.ddl.MySqlDDLGenerator" allow-connection="false"> </ddl-generator>
  <liquibase-settings useSeparateChangeSets="false" generateId="false" idStart="1"/>
  <create-kettle-job-settings filePath="" jobName="" schemaName="" kettleJoinType="0" savingToFile="true" />
  <play-pen zoom="1.0" viewportX="0" viewportY="0" relationship-style="rectilinear" names-displayLogicalNames="true" showPrimaryTag="true" showForeignTag="true" showAlternateTag="true" columnVisibility="ALL" relationshipLabelVisibility="true">
