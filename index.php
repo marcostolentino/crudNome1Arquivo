@@ -1,9 +1,13 @@
 <?
 
 //PRINT_RP
-function pr($dado) {
+function pr($dado, $print_r = true) {
     echo '<pre>';
-    print_r($dado);
+    if ($print_r) {
+        print_r($dado);
+    } else {
+        var_dump($dado);
+    }
 }
 
 //CONEXAO
@@ -11,23 +15,26 @@ $PDO = new PDO('mysql:host=127.0.0.1;dbname=CRUD', 'root', '');
 
 //INCLUIR
 if (@$_POST['ACAO'] == 'Incluir') {
+    $acaoDescricaoOk = 'Incluído';
     $pesIncluir = $PDO->prepare('INSERT INTO PESSOA (NOME) VALUES(:NOME)');
-    $pesIncluir->execute(array(
+    $ok = $pesIncluir->execute(array(
         ':NOME' => $_POST['NOME']
     ));
 }
 //ALTERAR
 elseif (@$_POST['ACAO'] == 'Alterar' && @$_POST['NOME']) {
+    $acaoDescricaoOk = 'Alterado';
     $pesAlterar = $PDO->prepare('UPDATE PESSOA SET NOME = :NOME WHERE ID_PESSOA = :ID_PESSOA');
-    $pesAlterar->execute(array(
+    $ok = $pesAlterar->execute(array(
         ':NOME' => $_POST['NOME'],
         ':ID_PESSOA' => $_POST['ID_PESSOA']
     ));
 }
 //EXCLUIR
 elseif (@$_POST['ACAO'] == 'Excluir') {
+    $acaoDescricaoOk = 'Excluído';
     $pesAlterar = $PDO->prepare('DELETE FROM PESSOA WHERE ID_PESSOA = :ID_PESSOA');
-    $pesAlterar->execute(array(
+    $ok = $pesAlterar->execute(array(
         ':ID_PESSOA' => $_POST['ID_PESSOA']
     ));
 //CANCELAR
@@ -37,6 +44,13 @@ elseif (@$_POST['ACAO'] == 'Excluir') {
 ?>
 
 <center>
+    <?
+    if (@$_POST['ACAO'] && @$ok == 1) {
+        echo "<h2 style='color: green'>$acaoDescricaoOk com sucesso!</h2>";
+    } elseif (@$_POST['ACAO'] && @$_POST['NOME'] && @!$ok) {
+        echo "<h2 style='color: red'>Não foi possível $_POST[ACAO]!</h2>";
+    }
+    ?>
     <table border="1" style="min-width: 500px">
         <tr style=" vertical-align: top">
             <td style="text-align: right;">
