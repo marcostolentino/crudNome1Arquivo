@@ -17,7 +17,7 @@ if (@$_POST['ACAO'] == 'Incluir') {
     ));
 }
 //ALTERAR
-elseif (@$_POST['ACAO'] == 'Alterar') {
+elseif (@$_POST['ACAO'] == 'Alterar' && @$_POST['NOME']) {
     $pesAlterar = $PDO->prepare('UPDATE PESSOA SET NOME = :NOME WHERE ID_PESSOA = :ID_PESSOA');
     $pesAlterar->execute(array(
         ':NOME' => $_POST['NOME'],
@@ -25,11 +25,14 @@ elseif (@$_POST['ACAO'] == 'Alterar') {
     ));
 }
 //EXCLUIR
-elseif (@$_GET['ACAO'] == 'Excluir') {
+elseif (@$_POST['ACAO'] == 'Excluir') {
     $pesAlterar = $PDO->prepare('DELETE FROM PESSOA WHERE ID_PESSOA = :ID_PESSOA');
     $pesAlterar->execute(array(
-        ':ID_PESSOA' => $_GET['ID_PESSOA']
+        ':ID_PESSOA' => $_POST['ID_PESSOA']
     ));
+//CANCELAR
+} elseif (@$_POST['ACAO'] == 'Cancelar') {
+    unset($_POST);
 }
 ?>
 
@@ -52,7 +55,7 @@ elseif (@$_GET['ACAO'] == 'Excluir') {
                     $pessoaArray[$pessoaFetch['ID_PESSOA']] = $pessoaFetch;
                     echo "$pessoaFetch[ID_PESSOA] - $pessoaFetch[NOME]";
                     ?>
-                    <form style="display: inline">
+                    <form method="POST" style="display: inline">
                         <input name="ID_PESSOA" value="<?= @$pessoaFetch[ID_PESSOA] ?>" hidden>
                         <input name="ACAO" value="Alterar" type="submit">
                         <input name="ACAO" value="Excluir" type="submit">
@@ -60,7 +63,7 @@ elseif (@$_GET['ACAO'] == 'Excluir') {
                     <hr>
                     <?
                 }
-                $pessoaAlterar = @$pessoaArray[@$_GET['ID_PESSOA']];
+                $pessoaAlterar = @$pessoaArray[@$_POST['ID_PESSOA']];
                 $acaoDescricao = ($pessoaAlterar ? 'Alterar' : 'Incluir');
                 ?>
             </td>
@@ -70,6 +73,7 @@ elseif (@$_GET['ACAO'] == 'Excluir') {
                     <input name="ID_PESSOA" value="<?= $pessoaAlterar['ID_PESSOA'] ?>" hidden>
                     <input name="NOME" value="<?= $pessoaAlterar['NOME'] ?>" maxlength="100" required><br>
                     <input name="ACAO" value="<?= $acaoDescricao ?>" type="submit">
+                    <input name="ACAO" value="Cancelar" type="submit">
                 </form>
             </td>
         </tr>
