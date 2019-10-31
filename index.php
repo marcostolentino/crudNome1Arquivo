@@ -7,6 +7,7 @@ function pr($dado, $print_r = true) {
         print_r($dado);
     } else {
         var_dump($dado);
+        //teste
     }
 }
 
