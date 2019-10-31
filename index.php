@@ -1,6 +1,6 @@
 <?
 
-//PRINT_RP
+//PRINT_R PRE
 function pr($dado, $print_r = true) {
     echo '<pre>';
     if ($print_r) {
@@ -10,45 +10,56 @@ function pr($dado, $print_r = true) {
     }
 }
 
-//CONEXAO
-$PDO = new PDO('mysql:host=127.0.0.1;dbname=CRUD', 'root', '');
+try {
 
-//INCLUIR
-if (@$_POST['ACAO'] == 'Incluir') {
-    $acaoDescricaoOk = 'Incluído';
-    $pesIncluir = $PDO->prepare('INSERT INTO PESSOA (NOME) VALUES(:NOME)');
-    $ok = $pesIncluir->execute(array(
-        ':NOME' => $_POST['NOME']
-    ));
-}
-//ALTERAR
-elseif (@$_POST['ACAO'] == 'Alterar' && @$_POST['NOME']) {
-    $acaoDescricaoOk = 'Alterado';
-    $pesAlterar = $PDO->prepare('UPDATE PESSOA SET NOME = :NOME WHERE ID_PESSOA = :ID_PESSOA');
-    $ok = $pesAlterar->execute(array(
-        ':NOME' => $_POST['NOME'],
-        ':ID_PESSOA' => $_POST['ID_PESSOA']
-    ));
-}
-//EXCLUIR
-elseif (@$_POST['ACAO'] == 'Excluir') {
-    $acaoDescricaoOk = 'Excluído';
-    $pesAlterar = $PDO->prepare('DELETE FROM PESSOA WHERE ID_PESSOA = :ID_PESSOA');
-    $ok = $pesAlterar->execute(array(
-        ':ID_PESSOA' => $_POST['ID_PESSOA']
-    ));
-//CANCELAR
-} elseif (@$_POST['ACAO'] == 'Cancelar') {
-    unset($_POST);
+    //CONEXAO
+    $PDO = new PDO('mysql:host=127.0.0.1;dbname=CRUD', 'root', '');
+    $PDO->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    $mensagemErro = '';
+
+    //throw new Exception("Exemplo de mensagem de erro");
+    //INCLUIR
+    if (@$_POST['ACAO'] == 'Incluir') {
+        $acaoDescricaoOk = 'Incluído';
+        $pesIncluir = $PDO->prepare('INSERT INTO PESSOA (NOME) VALUES(:NOME)');
+        $ok = $pesIncluir->execute(array(
+            ':NOME' => $_POST['NOME']
+        ));
+    }
+    //ALTERAR
+    elseif (@$_POST['ACAO'] == 'Alterar' && @$_POST['NOME']) {
+        $acaoDescricaoOk = 'Alterado';
+        $pesAlterar = $PDO->prepare('UPDATE PESSOA SET NOME = :NOME WHERE ID_PESSOA = :ID_PESSOA');
+        $ok = $pesAlterar->execute(array(
+            ':NOME' => $_POST['NOME'],
+            ':ID_PESSOA' => $_POST['ID_PESSOA']
+        ));
+    }
+    //EXCLUIR
+    elseif (@$_POST['ACAO'] == 'Excluir') {
+        $acaoDescricaoOk = 'Excluído';
+        $pesAlterar = $PDO->prepare('DELETE FROM PESSOA WHERE ID_PESSOA = :ID_PESSOA');
+        $ok = $pesAlterar->execute(array(
+            ':ID_PESSOA' => $_POST['ID_PESSOA']
+        ));
+        //CANCELAR
+    } elseif (@$_POST['ACAO'] == 'Cancelar') {
+        unset($_POST);
+    }
+} catch (Exception $ex) {
+    $mensagemErro = "<br><small>{$ex->getMessage()}</small><br>";
+} finally {
+    //? 
 }
 ?>
 
 <center>
     <?
     if (@$_POST['ACAO'] && @$ok == 1) {
-        echo "<h2 style='color: green'>$acaoDescricaoOk com sucesso!</h2>";
-    } elseif (@$_POST['ACAO'] && @$_POST['NOME'] && @!$ok) {
-        echo "<h2 style='color: red'>Não foi possível $_POST[ACAO]!</h2>";
+        echo "<h2 style='color: green'>$acaoDescricaoOk com sucesso! $mensagemErro</h2>";
+    } elseif (@$_POST['ACAO'] && @$_POST['NOME'] && !@$ok) {
+        echo "<h2 style='color: red'>Não foi possível $_POST[ACAO]! $mensagemErro</h2>";
     }
     ?>
     <table border="1" style="min-width: 500px">
