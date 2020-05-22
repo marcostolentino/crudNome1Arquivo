@@ -1,5 +1,11 @@
 <?
 
+//Configurações do banco de dados
+define('MYSQL_HOST', '127.0.0.1');
+define('MYSQL_DBNAME', 'CRUD');
+define('MYSQL_USERNAME', 'root');
+define('MYSQL_PASSWORD', '');
+
 //PRINT_R PRE
 function pr($dado, $print_r = true) {
     echo '<pre>';
@@ -12,7 +18,7 @@ function pr($dado, $print_r = true) {
 try {
 
     //CONEXAO
-    $PDO = new PDO('mysql:host=127.0.0.1;dbname=CRUD', 'root', '');
+    $PDO = new PDO('mysql:host='.MYSQL_HOST.';dbname='.MYSQL_DBNAME, MYSQL_USERNAME, MYSQL_PASSWORD);
     $PDO->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     $mensagemErro = '';
