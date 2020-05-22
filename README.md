@@ -4,9 +4,9 @@ Projeto voltado a fazer um crud fácil e simples.
 
 ## Requisitos
 
-.PHP
-.Pdo
-.Mysql
+.PHP  
+.Pdo  
+.Mysql  
 
 ## Instação
 
