@@ -105,9 +105,9 @@ $pessoaQuery = $PDO->query($sql);
             <td style="text-align: center;">
                 <h2><?= $acaoDescricao ?> Pessoa</h2> 
                 <form method="POST">
-                    <input name="ID_PESSOA" value="<?= $pessoaAlterar['ID_PESSOA'] ?>" hidden>
-                    <input name="NOME" value="<?= $pessoaAlterar['NOME'] ?>" maxlength="100" required><br>
-                    <input name="ACAO" value="<?= $acaoDescricao ?>" type="submit">
+                    <input name="ID_PESSOA" value="<?= @$pessoaAlterar['ID_PESSOA'] ?>" hidden>
+                    <input name="NOME" value="<?= @$pessoaAlterar['NOME'] ?>" maxlength="100" required><br>
+                    <input name="ACAO" value="<?= @$acaoDescricao ?>" type="submit">
                     <input name="ACAO" value="Cancelar" type="submit">
                 </form>
             </td>
