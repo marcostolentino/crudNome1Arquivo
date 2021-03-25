@@ -1,4 +1,4 @@
-# Exemplo de CRUD estrutural com PHP, Mysql e Pdo
+# Exemplo de CRUD com PHP
 
 Projeto voltado a fazer um crud fácil e simples. 
 
